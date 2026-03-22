@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>LuniExpress ERP</title>
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <style>
@@ -167,6 +167,7 @@ const NAVICONS={
 // ═══ RENDER ROOT ═══
 function render(){
   const r=$('root');
+  if(!r){console.error('Root element not found');return;}
   if(S.authLoading){r.innerHTML='<div class="ld"><div class="sp"></div>Carregando...</div>';return;}
   if(!S.user){r.innerHTML=rLogin();bLogin();return;}
   r.innerHTML=rShell();bShell();rPage();
@@ -1144,7 +1145,12 @@ async function init(){
     if(S.user){await load('dashboard');rPage();}
   });
 }
-init();
+// Start app when DOM is ready
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 </script>
 </body>
 </html>
